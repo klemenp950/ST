@@ -1,0 +1,85 @@
+body, html, head{
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.banner{
+    display: flex;
+    align-items: center;
+    background-color: #bbb76f;
+    width: auto;
+    height: 100px;
+    justify-content: center;
+}
+
+.banner h1 {
+    margin: 0px;
+    font-size: 40px;
+}
+
+.telo1 td, tr, th, table{
+    border: 1px solid #ca5c5d;
+    border-collapse: collapse;
+    padding: 0px 20px 0px;
+}
+
+.telo1{
+    text-align: center;
+    background-color: #fff8dc;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.telo1 th{
+    background-color: #ca5c5d;
+    color: white;
+}
+.telo1 table{
+    margin:0px auto 0px;
+}
+
+.telo2{
+    background-color: #fee4c4;
+}
+
+.telo2 fieldset{
+    width: 300px;
+    margin: 0px auto 0px;
+}
+
+.vnos{
+    float: right;
+    padding: 0px;
+    width: 200px;
+}
+
+.telo2 label{
+    float: left;
+}
+
+input{
+    margin: 0px;
+    padding: 0px;
+}
+
+.footer{
+    display: flex;
+    background-color: #add7e5;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer p{
+    margin: 0px; 
+}
+
+.gumbka{
+    display: inline-block;
+    width: 50px;
+}
+
+.gumbi{
+    text-align: center;
+}
