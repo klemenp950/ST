@@ -4,7 +4,18 @@ function domRemoveParticipant(event) {
     let obvestilo = "Res želite izbrisati uporabnika?";
     if(confirm(obvestilo)){
         const table = document.querySelector("#participant-table");
+        let izbrisaniID = event.toElement.parentNode.id;
         event.toElement.parentNode.remove();
+        let sodelujoci = JSON.parse(localStorage.getItem("participants"));
+        let elementZaBrisanje;
+        for(const clovek of sodelujoci){
+            const x = clovek['id']
+            if( x == izbrisaniID){
+                elementZaBrisanje = clovek;
+            }
+        }
+        sodelujoci.splice(sodelujoci.indexOf(elementZaBrisanje), 1);
+        localStorage.setItem("participants", JSON.stringify(sodelujoci));
     }
 }
 
@@ -13,12 +24,15 @@ function domAddParticipant(participant) {
     const table = document.querySelector("#participant-table");
     const r = document.createElement("tr");
     r.ondblclick = domRemoveParticipant;
-    table.appendChild(r)
+    r.setAttribute("id", num);
+    table.appendChild(r);
 
     for (const attr in participant){
-        const td = document.createElement("td");
-        td.innerText = participant[attr];
-        r.appendChild(td);
+        if(attr !== "id"){
+            const td = document.createElement("td");
+            td.innerText = participant[attr];
+            r.appendChild(td);
+        }
     }
 
     let osebe = [];
@@ -28,9 +42,11 @@ function domAddParticipant(participant) {
     osebe.push(participant);
     localStorage.setItem("participants", JSON.stringify(osebe));
 }
-
+let num = 0;
 function addParticipant(event) {
 
+    
+    num = num + 1;
     const first = document.querySelector("#first").value;
     const last = document.querySelector("#last").value;
     const role = document.querySelector("#role").value;
@@ -41,13 +57,13 @@ function addParticipant(event) {
     
     // Create participant object
     const participant = {
+        id: num,
         first: first,
         last: last,
         role: role
     };
 
     domAddParticipant(participant);
-
     // Move cursor to the first name input field
     document.getElementById("first").focus();
 }
@@ -64,13 +80,21 @@ document.addEventListener("DOMContentLoaded", () => {
         for (const clovek of sodelujoci){
             const table = document.querySelector("#participant-table");
             let row = document.createElement("tr");
+            row.setAttribute("id", clovek["id"]);
             row.ondblclick = domRemoveParticipant;
             
 
             for(const attr in clovek){
-                const td = document.createElement("td");
-                td.innerText = clovek[attr];
-                row.appendChild(td);
+                if(attr !== "id"){
+                    const td = document.createElement("td");
+                    td.innerText = clovek[attr];
+                    row.appendChild(td);
+                } else {
+                    if (parseInt(clovek[attr]) > num){
+                        num = parseInt(clovek[attr]);
+                    }
+                }
+                
             }
 
             table.appendChild(row);
