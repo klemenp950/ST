@@ -27,6 +27,17 @@ Connection: Close\r
 """
 
 
+def parse_headers(client):
+    headers = dict()
+    while True:
+        line = client.readline().decode("utf8").strip()
+        if not line:
+            return headers
+
+        key, val = line.split(":", 1)
+        headers[key.strip()] = val.strip()
+
+
 def process_request(connection, address, port):
     """
     Process an incoming socket request.
@@ -46,10 +57,38 @@ def process_request(connection, address, port):
     line = client.readline().decode("utf-8").strip()
 
     # Create a response: the same text, but in upper case
-    response = line.upper()
+    # response = line.upper()
 
     # Write the response to the socket
-    client.write(response.encode("utf-8"))
+    # client.write(response.encode("utf-8"))
+
+    try:
+        method, uri, version = line.split()
+        assert method == "GET", "Invalid request method"
+        assert uri and uri[0] == '/', 'Invalid request URI'
+        assert version == "HTTP/1.1", "Invalid request version"
+
+        headers = parse_headers(client)
+        # print(headers)
+
+        print(f"Preparsana prva vrstica:\nmethod={method}, uri={uri}, version={version}, \nheaders={headers}", method,
+              uri, version, headers)
+
+        with open(("podatki" + uri), "rb") as h:
+            body = h.read()
+        mime_type, _ = mimetypes.guess_type(uri)
+        header = HEADER_RESPONSE_200 % (
+            mime_type,
+            len(body)
+        )
+        client.write(header.encode("utf8"))
+        client.write(body)
+
+    except (ValueError, AssertionError) as e:
+        print(e)
+    except IOError:
+        client.write(RESPONSE_404.encode("utf8"))
+        print(str(IOError))
 
     # Closes file-like object
     client.close()

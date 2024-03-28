@@ -6,4 +6,4 @@ def get(url, port, resource):
 
 
 if __name__ == "__main__":
-    print(get("localhost", 8080, "/index.html"))
+    print(get("localhost", 8081, "/index.html"))
