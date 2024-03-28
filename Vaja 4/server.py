@@ -74,7 +74,7 @@ def process_request(connection, address, port):
         print(f"Preparsana prva vrstica:\nmethod={method}, uri={uri}, version={version}, \nheaders={headers}", method,
               uri, version, headers)
 
-        with open(("podatki" + uri), "rb") as h:
+        with open(("spletnaStran" + uri), "rb") as h:
             body = h.read()
         mime_type, _ = mimetypes.guess_type(uri)
         header = HEADER_RESPONSE_200 % (
