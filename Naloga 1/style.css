@@ -1,0 +1,35 @@
+h1{
+    text-align: center;
+    font-size: 38px;
+    background-color: #ffc966;
+    margin: 0;
+    line-height: 82px;
+
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+nav{
+    background-color: orange;
+    width: 100%;
+    height: 62.4px;
+}
+
+.element{
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px;
+    line-height: 62.4px;
+    color: white;
+    transition: all 0.15s ease-out 100ms;
+}
+
+.element:hover {
+    background-color: white;
+    color: orange;
+    height: 58px;
+}
