@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj - Strava</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <h1><a href="index.html">Strava</a></h1>
+    <nav>
+        <a href="dodajanje.html" class="element">Dodajanje</a>
+        <a href="viri.html" class="element">Viri</a>
+    </nav>
+    <div class="desnaReklama"></div>
+    <fieldset>
+        <label for="naslov">Naslov teka</label>
+        <input type="text" id="naslov"> <br>
+        <label for="dolzina">Dolžina</label> <br>
+        <input type="number" id="dolzina"> <br>
+        <label for="datum">Datum</label> <br>
+        <input type="date" id="datum"> <br> <br>
+        <textarea name="opis" id="opis" cols="30" rows="10" onfocus="izbrisiBesedilo()">Opišite vaš tek</textarea>
+        <label for="kategorija">Kategorija</label> <br>
+        <select id="kategorija" name="kategorija">
+            <option>Zone 2</option>
+            <option>Zone 3</option>
+            <option selected="selected">Zone 4</option>
+            <option>Zone 5</option>
+        </select> <br> 
+        <input type="button" value="Shrani">
+    </fieldset>
+    <div class="levaReklama"></div>
+    <footer>
+        Noga
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

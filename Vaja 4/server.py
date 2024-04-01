@@ -71,8 +71,8 @@ def process_request(connection, address, port):
         headers = parse_headers(client)
         # print(headers)
 
-        print(f"Preparsana prva vrstica:\nmethod={method}, uri={uri}, version={version}, \nheaders={headers}", method,
-              uri, version, headers)
+        """print(f"Preparsana prva vrstica:\nmethod={method}, uri={uri}, version={version}, \nheaders={headers}", method,
+              uri, version, headers)"""
 
         with open(("spletnaStran" + uri), "rb") as h:
             body = h.read()
