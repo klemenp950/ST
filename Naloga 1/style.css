@@ -96,12 +96,19 @@ footer {
 
 .levaReklama{
     height: 100%;
+    width: 100%;
     grid-area: levaReklama;
+    background-color: aqua;
+    border: 0px;
 }
 
 .desnaReklama{
     height: 100%;
+    width: 100%;
     grid-area: desnaReklama;
+    background-color: aqua;
+    border: 0px;
+
 }
 
 nav button {
@@ -178,6 +185,10 @@ textarea {
     }
 
     nav button{
+        display: none;
+    }
+
+    .desnaReklama{
         display: none;
     }
   }

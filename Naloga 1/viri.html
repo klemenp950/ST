@@ -14,7 +14,9 @@
         <a href="dodajanje.html" class="element">Dodajanje</a>
         <a href="virix.html" class="element">Viri</a>
     </nav>
-    <div class="desnaReklama"></div>
+    <div class="levaReklama">
+        <p class="besedilo">Prostor za vaš oglas.</p>
+    </div>
     <div class="telo">
         <h2 class="besedilo">Povezave do virov:</h2>
         <ol class="seznamLinkov">
@@ -24,12 +26,14 @@
             <li><a href="https://fontawesome.com/v4/icon/bars" class="link">Ikonce</a></li>
             <li><a href="https://www.w3schools.com/howto/howto_css_switch.asp" class="link">Toggle</a></li>
         </ol>
-        <div class="levaReklama"></div>
+        <div class="desnaReklama">
+            <p class="besedilo">Prostor za vaš oglas.</p>
+        </div>
     </div>
     <footer>
         <p>Dark mode</p>
         <label class="switch">
-            <input type="checkbox" onclick="toggleDarkMode()" id="darkMode">
+            <input type="checkbox" onclick="toggleDarkMode()" onload="idk()" id="darkMode">
             <span class="slider round"></span>
         </label>
     </footer>

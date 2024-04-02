@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // This function is run after the page contents have been loaded
   // Put your initialization code here
 
-  const darkModeCheckbox = document.getElementsByClassName("gumb")[0]; // Predvidevamo, da je to prvi element z razredom "gumb"
+  const darkModeCheckbox = document.getElementById("darkMode"); // Predvidevamo, da je to prvi element z razredom "gumb"
 
   if (localStorage.getItem("DarkMode") === null) {
     localStorage.setItem("DarkMode", false);
@@ -92,3 +92,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+function idk(){
+  const DarkMode =  localStorage.getItem("DarkMode");
+  if (DarkMode) {
+    document.getElementById("darkMode").checked = true;
+    console.log("debug")
+  }else{
+    document.getElementById("darkMode").checked = false;
+  }
+
+}
