@@ -9,23 +9,29 @@
 
 </head>
 <body>
-    <h1><a href="index.html">Strava</a></h1>
+    <h1 class="naslov"><a href="index.html">Strava</a></h1>
     <nav>
         <a href="dodajanje.html" class="element">Dodajanje</a>
         <a href="virix.html" class="element">Viri</a>
     </nav>
     <div class="desnaReklama"></div>
     <div class="telo">
-        <ul>
-            <li><a href="https://blog.hubspot.com/website/css-hover-animation">Transition</a></li>
-            <li><a href="https://www.w3schools.com/html/html_form_input_types.asp">Inputi</a></li>
-            <li><a href="https://www.w3schools.com/tags/tag_textarea.asp">textarea</a></li>
-            <li><a href="https://fontawesome.com/v4/icon/bars"></a></li>
-        </ul>
+        <h2 class="besedilo">Povezave do virov:</h2>
+        <ol class="seznamLinkov">
+            <li><a href="https://blog.hubspot.com/website/css-hover-animation" class="link">Transition</a></li>
+            <li><a href="https://www.w3schools.com/html/html_form_input_types.asp" class="link">Inputi</a></li>
+            <li><a href="https://www.w3schools.com/tags/tag_textarea.asp" class="link">textarea</a></li>
+            <li><a href="https://fontawesome.com/v4/icon/bars" class="link">Ikonce</a></li>
+            <li><a href="https://www.w3schools.com/howto/howto_css_switch.asp" class="link">Toggle</a></li>
+        </ol>
         <div class="levaReklama"></div>
     </div>
     <footer>
-        Noga
+        <p>Dark mode</p>
+        <label class="switch">
+            <input type="checkbox" onclick="toggleDarkMode()" id="darkMode">
+            <span class="slider round"></span>
+        </label>
     </footer>
     <script src="script.js"></script>
 </body>

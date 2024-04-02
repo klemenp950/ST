@@ -16,11 +16,11 @@
     <div class="desnaReklama"></div>
     <fieldset>
         <label for="naslov">Naslov teka</label>
-        <input type="text" id="naslov"> <br>
+        <input type="text" id="naslov" class="vnos"> <br>
         <label for="dolzina">Dolžina</label> <br>
-        <input type="number" id="dolzina"> <br>
+        <input type="number" id="dolzina" class="vnos"> <br>
         <label for="datum">Datum</label> <br>
-        <input type="date" id="datum"> <br> <br>
+        <input type="date" id="datum" class="vnos"> <br> <br>
         <textarea name="opis" id="opis" cols="30" rows="10" onfocus="izbrisiBesedilo()">Opišite vaš tek</textarea>
         <label for="kategorija">Kategorija</label> <br>
         <select id="kategorija" name="kategorija">
@@ -29,11 +29,15 @@
             <option selected="selected">Zone 4</option>
             <option>Zone 5</option>
         </select> <br> 
-        <input type="button" value="Shrani">
+        <input type="button" value="Shrani" class="gumb">
     </fieldset>
     <div class="levaReklama"></div>
     <footer>
-        Noga
+        <p>Dark mode</p>
+        <label class="switch">
+            <input type="checkbox" onclick="toggleDarkMode()" id="darkMode">
+            <span class="slider round"></span>
+        </label>
     </footer>
     <script src="script.js"></script>
 </body>
