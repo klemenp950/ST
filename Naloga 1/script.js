@@ -69,6 +69,16 @@ function setDarkMode(primarnaBarva, sekundarnaBarva){
   if (seznamLinkov != null) {
     seznamLinkov.style.color = sekundarnaBarva;
   }
+
+  const levaReklama = document.getElementsByClassName("levaReklama")[0];
+  if (levaReklama != null) {
+    levaReklama.style.backgroundColor = primarnaBarva;
+  }
+
+  const desnaReklama = document.getElementsByClassName("desnaReklama")[0];
+  if (desnaReklama != null) {
+    desnaReklama.style.backgroundColor = primarnaBarva;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

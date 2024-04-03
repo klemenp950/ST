@@ -2,32 +2,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-body {
-    background-color: #353535;
-}
-
-input{
-    background-color: #353535;
-    color: white;
-}
-
-textarea {
-    background-color: #353535;
-    color: white;
-}
-
-select{
-    background-color: #353535;
-    color: white;
-}
-
-label{
-    color: white;
-}
-
 .gumb{
-    border-radius: 30px;
     margin-top: 8px;
+    background-color: orange;
+    border: 0px;
 }
 
 
@@ -52,7 +30,6 @@ nav{
     height: 62.4px;
     grid-area: nav;
     border: 0px;
-    padding: 0px 30px 0px 30px;
 }
 
 .element{
@@ -80,6 +57,7 @@ fieldset {
     height: auto;
     grid-area: telo;
     margin: 10px auto;
+    border: solid orange 1px;
 }
 
 footer {
@@ -87,7 +65,7 @@ footer {
     background-color: orange;
     height: 100px;
     grid-area: footer;
-    padding: 0px 30px;
+    margin-top: 100px;
 }
 
 .telo {
@@ -98,7 +76,7 @@ footer {
     height: 100%;
     width: 100%;
     grid-area: levaReklama;
-    background-color: aqua;
+    background-color: #ccc;
     border: 0px;
 }
 
@@ -106,7 +84,7 @@ footer {
     height: 100%;
     width: 100%;
     grid-area: desnaReklama;
-    background-color: aqua;
+    background-color: #ccc;
     border: 0px;
 
 }
@@ -146,16 +124,11 @@ textarea {
             'footer';
     }
 
-    nav button{
-        display: block;
-    }
-
     .element{
         display: block;
         background-color: orange;
         display: block;
         border: 0px;
-        margin-right: 30px;
     }
 
     fieldset {
@@ -164,7 +137,15 @@ textarea {
 
     nav {
         height: auto;
-        padding-right: 30px;
+        padding-left: 0px;
+    }
+
+    .levaReklama .desnaReklama{
+        display: none;
+    }
+
+    nav a:first-child{
+        margin-left: 0;
     }
 
   }
@@ -199,7 +180,7 @@ textarea {
         margin: 0;
         padding: 0;
         display: grid;
-        grid-template-columns: 25% 50% 25%;
+        grid-template-columns: 20% 60% 20%;
         grid-template-areas: 
             'header header header'
             'nav nav nav'
@@ -210,6 +191,12 @@ textarea {
     nav button{
         display: none;
     }
+
+    .desnaReklama {
+        display: block;
+        background-color: #ccc;
+    }
+
   }
 
 
@@ -218,6 +205,7 @@ textarea {
     display: inline-block;
     width: 60px;
     height: 34px;
+    margin-left: 30px;
   }
   
   .switch input { 
@@ -249,7 +237,7 @@ textarea {
   }
   
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #ffc966;
   }
   
   
@@ -269,4 +257,30 @@ textarea {
 .link{
     color: white;
     text-decoration: none;
+}
+
+.tabela{
+    margin: 10px;
+    grid-area: telo;
+}
+
+.tabela th {
+    color: orange;
+}
+
+.tabela tr {
+    color: white;
+    text-align: center;
+    border: solid 1px orange;
+}
+
+table, th, td {
+    border: 1px solid orange;
+    border-collapse: collapse;
+}
+
+.akcija{
+    margin: auto;
+    background-color: orange;
+    border: 0px;
 }
