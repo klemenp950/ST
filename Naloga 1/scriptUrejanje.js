@@ -69,6 +69,13 @@ function setDarkMode(primarnaBarva, sekundarnaBarva){
   if (desnaReklama != null) {
     desnaReklama.style.backgroundColor = primarnaBarva;
   }
+
+  const td = document.getElementsByClassName("td");
+  if (td != null) {
+    for (let i = 0; i < td.length; i++) {
+      td[i].style.color = sekundarnaBarva;
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -81,12 +88,29 @@ document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("DarkMode") === "true") {
     setDarkMode("#353535", "#ffffff");
     darkModeCheckbox.checked = true;
-    darkModeCheckbox.setAttribute("checked");
   } else {
     setDarkMode("#ffffff", "#353535");
     darkModeCheckbox.checked = false;
-    darkModeCheckbox.removeAttribute("checked");
   }
+
+  const teki = JSON.parse(localStorage.getItem("teki"));
+  let urejani;
+
+  for (const tek of teki) {
+    const x = tek['id'];
+    if(x == localStorage.getItem("temp")){
+      urejani = tek;
+    }
+  }
+
+  console.log(urejani);
+
+  const tabela = document.getElementsByTagName("fieldset")[0];
+  document.getElementById("naslov").value = urejani['naslov'];
+  document.getElementById("dolzina").value = urejani['dolzina'];
+  document.getElementById("datum").value = urejani['datum'];
+  document.getElementById("opis").value = urejani['opis'];
+  document.getElementById("kategorija").value = urejani['kategorija'].slice(-1);
 });
 
 function idk(){
@@ -97,5 +121,41 @@ function idk(){
   }else{
     document.getElementById("darkMode").checked = false;
   }
+}
+
+function posodobi(){
+  const id = localStorage.getItem("temp");
+  let teki = JSON.parse(localStorage.getItem("teki"));
+
+  let elementZaBrisanje;
+  for(const tek of teki){
+      const x = tek['id']
+      if(x == id){
+        elementZaBrisanje = tek;
+      }
+  }
+
+  teki.splice(teki.indexOf(elementZaBrisanje), 1);
+  localStorage.setItem("teki", JSON.stringify(teki));
+
+  const naslov = document.getElementById("naslov").value;
+  const dolzina = document.getElementById("dolzina").value;
+  const datum = document.getElementById("datum").value;
+  const opis = document.getElementById("opis").value;
+  const kategorija = document.getElementById("kategorija").value;
+  
+  const tek = {
+      id: id,
+      naslov: naslov,
+      dolzina: dolzina,
+      datum: datum,
+      opis: opis, 
+      kategorija: "Zone " + kategorija 
+  };
+
+  teki.push(tek);
+  localStorage.setItem("teki", JSON.stringify(teki));
+
+  window.location.href = "index.html";
 }
 

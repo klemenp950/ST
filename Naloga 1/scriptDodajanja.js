@@ -73,6 +73,13 @@ function setDarkMode(primarnaBarva, sekundarnaBarva){
   if (desnaReklama != null) {
     desnaReklama.style.backgroundColor = primarnaBarva;
   }
+
+  const td = document.getElementsByClassName("td");
+  if (td != null) {
+    for (let i = 0; i < td.length; i++) {
+      td[i].style.color = sekundarnaBarva;
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -118,11 +125,10 @@ function dodaj(){
     const datum = document.getElementById("datum").value;
     const opis = document.getElementById("opis").value;
     const kategorija = document.getElementById("kategorija").value;
-
     const tek = {
         id: num,
         naslov: naslov,
-        dolzina: dolzina + " Km",
+        dolzina: dolzina,
         datum: datum,
         opis: opis, 
         kategorija: kategorija 
@@ -134,6 +140,20 @@ function dodaj(){
     }
     teki.push(tek);
     localStorage.setItem("teki", JSON.stringify(teki));
+
+    //window.location.href = "index.html";
     
 }
+
+function pretvoriDatum(datumNiz) {
+  const datum = new Date(datumNiz);
+  const dan = datum.getDate();
+  const mesec = datum.getMonth() + 1; // Pri JavaScriptu so meseci indeksirani od 0, zato moramo prišteti 1
+  const leto = datum.getFullYear();
+
+  const pretvorjenDatum = `${dan}. ${mesec}. ${leto}`;
+
+  return pretvorjenDatum;
+}
+
 

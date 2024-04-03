@@ -73,7 +73,6 @@ footer {
 }
 
 .levaReklama{
-    height: 100%;
     width: 100%;
     grid-area: levaReklama;
     background-color: #ccc;
@@ -81,7 +80,6 @@ footer {
 }
 
 .desnaReklama{
-    height: 100%;
     width: 100%;
     grid-area: desnaReklama;
     background-color: #ccc;

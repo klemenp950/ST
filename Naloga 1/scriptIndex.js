@@ -73,6 +73,14 @@ function setDarkMode(primarnaBarva, sekundarnaBarva){
   if (desnaReklama != null) {
     desnaReklama.style.backgroundColor = primarnaBarva;
   }
+
+  const td = document.getElementsByTagName("td");
+  console.log(td);
+  if (td != null) {
+    for (let i = 0; i < td.length; i++) {
+      td[i].style.color = sekundarnaBarva;
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -103,9 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
       
       for (const attr in tek) {
         if(attr !== "id"){
-          const td = document.createElement("td");
-          td.innerText = tek[attr];
-          novaVrstica.appendChild(td);
+          if (attr == "dolzina") {
+            const td = document.createElement("td");
+            td.innerText = tek[attr] + " Km";
+            novaVrstica.appendChild(td);
+          } else {
+            const td = document.createElement("td");
+            td.innerText = tek[attr];
+            novaVrstica.appendChild(td);
+          }
         }
       }
 
@@ -115,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gumbUredi.innerText = "Uredi";
       gumbUredi.classList.add("akcija");
       const gumbIzbrisi = document.createElement("button")
-      gumbIzbrisi.onclick = uredi; //TODO: Ko napišeš funkcijo sprmeni.
+      gumbIzbrisi.onclick = izbrisi;
       gumbIzbrisi.innerText = "Izbriši"
       gumbIzbrisi.classList.add("akcija");
 
@@ -145,6 +159,27 @@ function idk(){
 }
 
 function uredi(){
-  window.location.href = "urejanje.html";
+  const x = document.activeElement.parentNode.parentNode.id;
+  localStorage.setItem("temp", x);
+  window.location.href = "urejanje.html"; 
+}
+
+function izbrisi() {
+  let obvestilo = "Res želite izbrisati tek?";
+  if(confirm(obvestilo)){
+      const table = document.getElementById("tabela");
+      let izbrisaniID = document.activeElement.parentElement.parentElement.id;
+      document.activeElement.parentNode.parentNode.remove();
+      let teki = JSON.parse(localStorage.getItem("teki"));
+      let elementZaBrisanje;
+      for(const tek of teki){
+          const x = tek['id']
+          if(x == izbrisaniID){
+              elementZaBrisanje = tek;
+          }
+      }
+      teki.splice(teki.indexOf(elementZaBrisanje), 1);
+      localStorage.setItem("teki", JSON.stringify(teki));
+  }
 }
 

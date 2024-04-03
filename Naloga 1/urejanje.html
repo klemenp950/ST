@@ -26,12 +26,12 @@
         <textarea name="opis" id="opis" cols="30" rows="10" placeholder="Opišite vaš tek" onfocus="izbrisiBesedilo()"></textarea>
         <label for="kategorija">Kategorija</label> <br>
         <select id="kategorija" name="kategorija">
-            <option>Zone 2</option>
-            <option>Zone 3</option>
-            <option selected="selected">Zone 4</option>
-            <option>Zone 5</option>
+            <option value="2">Zone 2</option>
+            <option value="3">Zone 3</option>
+            <option selected="selected" value="4">Zone 4</option>
+            <option value="5">Zone 5</option>
         </select> <br> 
-        <input type="button" value="Shrani" class="gumb">
+        <input type="button" value="Posodobi" class="gumb" onclick="posodobi()">
     </fieldset>
     <div class="desnaReklama">
         <h3 class="besedilo" style="text-align: center;">Prostor za vaš oglas</h3>
