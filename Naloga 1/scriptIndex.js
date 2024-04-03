@@ -1,11 +1,5 @@
 "use strict"
 
-
-function izbrisiBesedilo() {
-    document.getElementById("opis").value = "";
-  }
-
-
 function toggleDarkMode(){
   var checkBox = document.getElementById("darkMode");
   if (checkBox.checked) {
@@ -94,12 +88,48 @@ document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("DarkMode") === "true") {
     setDarkMode("#353535", "#ffffff");
     darkModeCheckbox.checked = true;
-    darkModeCheckbox.setAttribute("checked");
   } else {
     setDarkMode("#ffffff", "#353535");
     darkModeCheckbox.checked = false;
-    darkModeCheckbox.removeAttribute("checked");
   }
+
+  if (localStorage.teki){
+    const teki = JSON.parse(localStorage.getItem("teki"));
+
+    for (const tek of teki) {
+      const tabela = document.getElementById("tabela");
+      let novaVrstica = document.createElement("tr");
+      novaVrstica.setAttribute("id", tek["id"]);
+      
+      for (const attr in tek) {
+        if(attr !== "id"){
+          const td = document.createElement("td");
+          td.innerText = tek[attr];
+          novaVrstica.appendChild(td);
+        }
+      }
+
+      const tdZGumbi = document.createElement("td");
+      const gumbUredi = document.createElement("button")
+      gumbUredi.onclick = uredi;
+      gumbUredi.innerText = "Uredi";
+      gumbUredi.classList.add("akcija");
+      const gumbIzbrisi = document.createElement("button")
+      gumbIzbrisi.onclick = uredi; //TODO: Ko napišeš funkcijo sprmeni.
+      gumbIzbrisi.innerText = "Izbriši"
+      gumbIzbrisi.classList.add("akcija");
+
+      tdZGumbi.appendChild(gumbUredi);
+      tdZGumbi.appendChild(gumbIzbrisi);
+      
+      novaVrstica.appendChild(tdZGumbi);
+
+      tabela.appendChild(novaVrstica);
+    }
+  } else {
+    localStorage.setItem("teki", "[]");
+  }
+
 
 });
 
@@ -113,3 +143,8 @@ function idk(){
   }
 
 }
+
+function uredi(){
+  window.location.href = "urejanje.html";
+}
+

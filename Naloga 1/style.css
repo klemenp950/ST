@@ -280,7 +280,7 @@ table, th, td {
 }
 
 .akcija{
-    margin: auto;
+    margin: 5px;
     background-color: orange;
     border: 0px;
 }
