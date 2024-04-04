@@ -66,6 +66,7 @@ footer {
     height: 100px;
     grid-area: footer;
     margin-top: 100px;
+    margin-bottom: 0px;
 }
 
 .telo {
