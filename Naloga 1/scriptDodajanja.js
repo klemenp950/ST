@@ -141,7 +141,7 @@ function dodaj(){
     teki.push(tek);
     localStorage.setItem("teki", JSON.stringify(teki));
 
-    //window.location.href = "index.html";
+    window.location.href = "index.html";
     
 }
 
