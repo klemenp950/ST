@@ -7,6 +7,10 @@
 3. Call the save_to_db() function to save the user to the DB.
 
 */
+require_once("UserDB.php");
+$firstname = $_POST["first"];
+$lastname = $_POST["last"];
+UserDB::save_to_db($firstname, $lastname);
 
 ?>
 

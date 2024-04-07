@@ -44,7 +44,15 @@ class BookDB {
     public static function find($query) {
         # Implement search functionality.
         # You may find the following function useful http://php.net/stripos
-        
-        return self::getAllBooks();
+        $arr = self::getAllBooks();
+        $retruningArr = [];
+        foreach ($arr as $knjiga){
+            if (stripos($knjiga->author, $query) !== false) {
+                array_push($retruningArr, $knjiga);
+            } elseif(stripos($knjiga->title, $query) !== false) {
+                array_push($retruningArr, $knjiga);
+            }
+        }
+        return $retruningArr;
     }
 }

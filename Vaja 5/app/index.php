@@ -49,13 +49,16 @@
 			3. Use a loop to iterate over users and display them inside the table.
 			   Use the the below row to display a user inside the table.
 		-->
-
-		<tr>
-			<td>number</td>
-			<td>first</td>
-			<td>last</td>
-		</tr>
-
+		<?php
+			require_once("UserDB.php");
+			$users = UserDB::read_from_db($_GET);
+			foreach ($users as $user):?>
+			<tr>
+				<td><?= $user["number"] ?></td>
+				<td><?= $user["first"] ?></td>
+				<td><?= $user["last"] ?></td>
+			</tr>
+		<?php endforeach; ?>
 	</table>
 </div>
 
