@@ -6,15 +6,7 @@
 <h1>Prime number check</h1>
 
 <p><?php
-
-/*
-* Find out the current date and time on the server, and display them. Use functions:
-- http://php.net/manual/en/function.echo.php 
-- http://php.net/manual/en/function.date.php
-    - string for date: "d. m. Y"
-    - string for time: "H:i"
-*/
-
+echo "Pozdravljeni. Današnji datum je " . date("Y-m-d") . " in ura je " . date ("H:i:s");
 ?></p>
 
 <p>Check if a number is prime by submitting the following form.</p>

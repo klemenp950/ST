@@ -13,8 +13,12 @@ require_once ("BookDB.php");
 
 <ul>
     <?php foreach (BookDB::getAllBooks() as $book): 
-    # Implemet a nicer presentation for a book, for instance: <li>Author: Title (XY EUR)</li>
+    $id = $book->id; 
+    $author = $book->author;
+    $title = $book->title;
+    $price = $book->price;
+    $besedilo = "Avtor: $author. Naslov: $title. Cena knjige: $price";
     ?>
-        <li><?= $book ?></li>
+    <li><a href="book-detail.php?id=<?php echo $id; ?>" id=$id><?php echo $besedilo ?></a></li>
     <?php endforeach; ?>
 </ul>

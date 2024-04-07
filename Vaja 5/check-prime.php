@@ -7,8 +7,12 @@
 
 // Complete function isPrime($number) by implementing a simple algorithm
 function isPrime($number) {
-    # TODO
-    return false;
+    for ($i=2; $i < $number; $i++) { 
+        if ($number % $i == 0) {
+            return false;
+        }
+    }
+    return true;
 }
 
 $number = $_GET["number"];

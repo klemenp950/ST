@@ -4,6 +4,7 @@ class Book {
     public $title = null;
     public $author = null;
     public $id = 0;
+    public $price = 0;
 
     /**
      * Constructor: creates a new instance.
@@ -11,10 +12,11 @@ class Book {
      * @param type $title
      * @param type $author
      */
-    public function __construct($id, $title, $author) {
+    public function __construct($id, $title, $author, $price) {
         $this->id = $id;
         $this->title = $title;
         $this->author = $author;
+        $this ->price = $price;
     }
 
     /**

@@ -18,10 +18,10 @@ class BookDB {
      */
     public static function getAllBooks() {
         $books = array();
-        $books[1] = new Book(1, "Prolog Programming for Artificial Intelligence", "Ivan Bratko");
-        $books[2] = new Book(2, "Arhitektura računalniških sistemov", "Dušan Kodek");
-        $books[3] = new Book(3, "Managing Information Systems Security and Privacy", "Denis Trček");
-        $books[4] = new Book(4, "Študijski koledar", "FRI");
+        $books[1] = new Book(1, "Prolog Programming for Artificial Intelligence", "Ivan Bratko", 10);
+        $books[2] = new Book(2, "Arhitektura računalniških sistemov", "Dušan Kodek", 15);
+        $books[3] = new Book(3, "Managing Information Systems Security and Privacy", "Denis Trček", 20);
+        $books[4] = new Book(4, "Študijski koledar", "FRI", 0);
 
         return $books;
     }

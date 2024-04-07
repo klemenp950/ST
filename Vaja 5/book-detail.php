@@ -8,9 +8,13 @@ require_once ("BookDB.php");
 
 <?php $book = BookDB::get($_GET["id"]); ?>
 
-<h1>Details about: <?= $book ?></h1>
+<h1>Details about: <?= $book->title ?></h1>
 <?php
-
-# TODO: provide details about the book 
-
+$id = $book->id;
+$author = $book->author;
+$title = $book->title;
+$price = $book->price;
 ?>
+
+<h2><?php echo $author ?></h2>
+<p>Cena knjige: <?php echo $price ?>€</p>
