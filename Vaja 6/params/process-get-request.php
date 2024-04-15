@@ -4,14 +4,13 @@
 
 <?php 
 
-// var_dump($var) simply outputs the contents of $var, its type and size
-var_dump($_GET);
+$ime = $_GET["first_name"];
+$priimek = $_GET["last_name"];
+$t=time();
+$time = date('h:i:s', $t);
 
-/*
- * The script should output the following string:
- *  - check if parameters are provided -- if not the script should display an error;
- *      - you can check if a value exists with http://php.net/manual/en/function.isset.php
- *      - you can test if a value is empty with http://php.net/manual/en/function.empty.php
- *  - and output a nicely formatted string using the send variables, for instance:
- *        "Hello $first_name $last_name, the time is <current_time_in_H:i_format>."
-*/
+if (isset($ime) && isset($priimek) && !empty($ime) && !empty($priimek)) {
+    echo "Hello $ime $priimek, the time is $time.";
+} else {
+    echo "Vnesi ime in priimek";
+}
