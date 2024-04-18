@@ -1,11 +1,14 @@
 <?php
 
-$a = 5;
-$b = 30;
-$c = $a + $b;
+$list[0] = "17";//vrednost prvega elementa
+$list[1] = "Prvi vnos";
+$list[] = "Naslednji vnos"; //izpuščen indeks naslovi naslednji element
 
 
-echo "Vsota $a + $b je $c<br>"; 
-echo "Vsota $a + $b je $c<br>"; 
 
+foreach ($list as $key => $value) {
+    echo $key . ". " . $value . "\n";
+} 
+
+echo sizeof($list);
 ?>

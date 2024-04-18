@@ -7,7 +7,7 @@ class BookDB {
     public static function getAll() {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("SELECT id, author, title, price FROM book");
+        $statement = $db->prepare("SELECT id, author, title, price, leto FROM book");
         $statement->execute();
 
         return $statement->fetchAll();
@@ -16,7 +16,7 @@ class BookDB {
     public static function get($id) {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("SELECT id, author, title, price FROM book 
+        $statement = $db->prepare("SELECT id, author, title, price, leto FROM book 
             WHERE id = :id");
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
@@ -24,25 +24,27 @@ class BookDB {
         return $statement->fetch();
     }
 
-    public static function insert($author, $title, $price) {
+    public static function insert($author, $title, $price, $leto) {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("INSERT INTO book (author, title, price)
-            VALUES (:author, :title, :price)");
+        $statement = $db->prepare("INSERT INTO book (author, title, price, leto)
+            VALUES (:author, :title, :price, :leto)");
         $statement->bindParam(":author", $author);
         $statement->bindParam(":title", $title);
         $statement->bindParam(":price", $price);
+        $statement->bindParam(":leto", $leto);
         $statement->execute();
     }
 
-    public static function update($id, $author, $title, $price) {
+    public static function update($id, $author, $title, $price, $leto) {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("UPDATE book SET author = :author,
-            title = :title, price = :price WHERE id = :id");
+            title = :title, price = :price, leto = :leto WHERE id = :id");
         $statement->bindParam(":author", $author);
         $statement->bindParam(":title", $title);
         $statement->bindParam(":price", $price);
+        $statement->bindParam(":leto", $leto);
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
     }
@@ -59,7 +61,7 @@ class BookDB {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("SELECT id, author, title, price FROM book 
-            WHERE author LIKE :query OR title LIKE :query");
+            WHERE author LIKE :query OR title LIKE :query OR leto LIKE :query");
 
         # Alternatively, we could execute: 
         # $statement = $db->prepare("SELECT id, author, title, price FROM book 
