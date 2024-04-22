@@ -98,17 +98,17 @@ Implementirajte dinamično aplikacijo, preko katere lahko vnašate in berete pod
 ### Podatkovna baza (že implementirano)
 Aplikacija deluje s pomočjo že implementirane podatkovne baze. Ta sestoji iz datoteke, ki hrani podatke, in iz dveh funkcij, s pomočjo katerih beremo in pišemo v datoteko.
 
-S funkcijo `save_to_db(first(str), last(str))` dodajamo zapise v podatkovno bazo, s funkcijo `read_from_db(criteria(dict))` pa zapise iz podatkovne baze beremo. (Ne pozabite: enotski testi pobrišejo vsebino podatkovne baze.)
+S funkcijo save_to_db(first(str), last(str)) dodajamo zapise v podatkovno bazo, s funkcijo read_from_db(criteria(dict)) pa zapise iz podatkovne baze beremo. (Ne pozabite: enotski testi pobrišejo vsebino podatkovne baze.)
 
-Klic `save_to_db("Janez", "Novak")` bo v podatkovno bazo dodal zapis. Hkrati bo zapisu (študentu) tudi priredil enolično številko.
+Klic save_to_db("Janez", "Novak") bo v podatkovno bazo dodal zapis. Hkrati bo zapisu (študentu) tudi priredil enolično številko.
 
 Interno je zapis o posameznem študentu realiziran s pomočjo slovarja, ki ima tri ključe: number, first in last. Ključ number je enolično število, ključa first in last pa zaporedoma predstavljata ime in priimek študenta. Primer zapisa je podan spodaj.
 
-`student = {"number": 1, "first": "Janez", "last": "Novak"}`
+student = {"number": 1, "first": "Janez", "last": "Novak"}
 Funkcija read_from_db(criteria(dict)) vrne seznam takih slovarjev. Funkcijo lahko pokličete z opcijskim argumentom tipa dict, s katerim lahko dodatno omejimo rezultate. Na primer, spodnji klic bo iz podatkovne baze pridobil vse zapise, kjer sta zaporedoma ime in priimek študenta Janez Novak.
 
-`students = read_from_db({"first": "Janez", "last": "Novak"})`
-`#students je seznam zapisov`
+students = read_from_db({"first": "Janez", "last": "Novak"})
+#students je seznam zapisov
 Kot kriterij lahko podate poljubno kombinacijo ključev number, first in last.
 
 ### Oblikovanje aplikacije (že implementirano)
@@ -118,7 +118,7 @@ Izgled (HTML in CSS) je definiran v datotekah app_list.html, app_add.html ter us
 Aplikacija naj deluje na spodaj navedenih (navideznih) naslovih URL. (Naslovu pravimo navidezen, saj datoteke app-add, app-index ter app-json ne obstajajo, čeprav z vidika odjemalca morda izgleda nasprotno.)
 
 ### Dodajanje zapisov v bazo
-`URL: http://localhost[:port]/app-add`
+URL: http://localhost[:port]/app-add
 
 Na tem naslovu URL sprejemate zahtevke po metodi POST. Zahtevek mora nujno vsebovati 2 parametra: first, ki vsebuje ime, in last, ki vsebuje priimek študenta.
 
@@ -127,59 +127,59 @@ V kolikor sta oba parametra prisotna, dodajte zapis v PB, vrnite kodo 200 in v t
 Če kateri od parametrov manjka, vrnite odgovor 400, če metoda zahtevka ni ustrezna, vrnite odgovor 405.
 
 ### Branje in filtriranje v formatu HTML
-`URL http://localhost[:port]/app-index`
+URL http://localhost[:port]/app-index
 
 Na tem naslovu URL sprejemate zahtevke le po metodi GET, sicer vrnite ustrezno napako. Če je zahtevek brez parametrov, iz baze preberite vse zapise in pripravite odgovor s kodo 200.
 
 Rezultat prikažite s pomočjo predloge v datoteki user_list.html. Pri izpisu vsebine datoteke user_list.html zamenjajte niz {{STUDENTS}} s seznamom študentov, ki ga oblikujete s pomočjo spremenljivke ROW_TEMPLATE. Namreč, vsak študent naj bo predstavljen z eno vrstico v tabeli.
 
-`TABLE_ROW = """`
-`<tr>`
-    `<td>%d</td>`
-    `<td>%s</td>`
-    `<td>%s</td>`
-`</tr>`
-`"""`
+TABLE_ROW = """
+<tr>
+    <td>%d</td>
+    <td>%s</td>
+    <td>%s</td>
+</tr>
+"""
 Spremenljivka ROW_TEMPLATE vsebuje tri mesta, na katera boste zapisali podatke o študentu: pri izpisu zamenjajte %d s parametrom number, prvi %s s parametrom first in drugi %s s parametrom last.
 
-Zahtevek GET lahko vsebuje parametre, s katerimi dodatno omejimo izpis. Parametri so lahko trije: number, first in last. Če je katerikoli od teh parametrov nastavljen, ga uporabite za filtriranje seznama študentov. Tako naj npr. poizvedba GET na naslov `http://localhost[:port]/app-index?first=Janez` vrne vse študente, katerih ime je Janez.
+Zahtevek GET lahko vsebuje parametre, s katerimi dodatno omejimo izpis. Parametri so lahko trije: number, first in last. Če je katerikoli od teh parametrov nastavljen, ga uporabite za filtriranje seznama študentov. Tako naj npr. poizvedba GET na naslov http://localhost[:port]/app-index?first=Janez vrne vse študente, katerih ime je Janez.
 
 ### Branje in filtriranje v formatu JSON
-`URL http://localhost[:port]/app-json`
+URL http://localhost[:port]/app-json
 
 Na tem naslovu URL sprejemate zahtevke le po metodi GET, sicer vrnite ustrezno napako. Če je zahtevek brez parametrov, iz baze preberite vse zapise in pripravite odgovor s kodo 200.
 
-Rezultat prikažite kot sporočilo v formatu JSON. Pri tem si pomagajte z modulom json in funkcijo `json.dumps(object);` podatke, ki jih dobite iz podatkovne baze lahko neposredno podate funkciji, denimo `json.dumps(read_from_db())`.
+Rezultat prikažite kot sporočilo v formatu JSON. Pri tem si pomagajte z modulom json in funkcijo json.dumps(object); podatke, ki jih dobite iz podatkovne baze lahko neposredno podate funkciji, denimo json.dumps(read_from_db()).
 
 Rezultat vrnite v telesu odgovora. Pri vračanju rezultata v formatu JSON je pomembno, da nastavite pravilen content-type na application/json. Primer odgovora je podan spodaj.
+"""HTTP/1.1 200 OK
+content-type: application/json
+content-length: 256
+connection: Close
 
-`HTTP/1.1 200 OK`
-`content-type: application/json`
-`content-length: 256`
-`connection: Close`
-`[`
-    `{`
-        `"number": 1,`
-        `"first": "Janez",`
-        `"last": "Novak"`
-    `},`
-    `{`
-        `"number": 2,`
-        `"first": "Marija",`
-        `"last": "Novak"`
-    `},`
-    `{`
-       ` "number": 3,`
-        `"first": "Cirila",`
-        `"last": "Novak"`
-   ` }`
-`]`
+[
+    {
+        "number": 1,
+        "first": "Janez",
+        "last": "Novak"
+    },
+    {
+        "number": 2,
+        "first": "Marija",
+        "last": "Novak"
+    },
+    {
+        "number": 3,
+        "first": "Cirila",
+        "last": "Novak"
+    }
+]
 
 ## Ostale zahteve
-Ne pozabite, pri implementaciji ne smete uporabiti funkcij, modulov ali paketov, razen tistih, ki so že uvoženi v datoteko `server.py (mimetypes, pickle, socket, os.path.isdir, urllib.parse.unquote_plus in json)` ali tistih, katere boste spisali sami.
+Ne pozabite, pri implementaciji ne smete uporabiti funkcij, modulov ali paketov, razen tistih, ki so že uvoženi v datoteko server.py (mimetypes, pickle, socket, os.path.isdir, urllib.parse.unquote_plus in json) ali tistih, katere boste spisali sami.
 
 Pri pisanju testov te omejitve ni: nekateri testi že uporabljajo zunanjo knjižnico Requests za pošiljanje zahtevkov in razčlenjevanje odgovorov.
 
-Ocenjevanje bo potekalo s pomočjo integracijskih testov na enak način kot je zapisano v datoteki `tests.py`: za vsako zahtevano funkcionalnost bo napisan integracijski test, ki bo strežniku poslal zahtevek in preveril ustreznost odgovora.
+Ocenjevanje bo potekalo s pomočjo integracijskih testov na enak način kot je zapisano v datoteki tests.py: za vsako zahtevano funkcionalnost bo napisan integracijski test, ki bo strežniku poslal zahtevek in preveril ustreznost odgovora.
 
-Vaš strežnik bo pognan s klicem funkcije `main(port(int))`. Pri programiranju bodite pozorni, da bo strežnik poslušal na številki vrat, ki jih dobite v spremenljivki `port`, in ne le kakšni vnaprej zakodirani številki (npr. `8080`).
+Vaš strežnik bo pognan s klicem funkcije main(port(int)). Pri programiranju bodite pozorni, da bo strežnik poslušal na številki vrat, ki jih dobite v spremenljivki port, in ne le kakšni vnaprej zakodirani številki (npr. 8080).
