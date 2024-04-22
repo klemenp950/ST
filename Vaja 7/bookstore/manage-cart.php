@@ -27,14 +27,6 @@ switch ($cart_action) {
         header("Location: index.php");
         break;
 
-    // TODO 3: Implement a mechanism that will allow the user to
-    // change the quantity of items in the cart. 
-    //  
-    // If the user sets the quantity to 0, the item should be 
-    // removed from the cart. 
-    // Hint: when changing the quantities, make sure you set the
-    // "cart_action" variable to "edit"
-
     case 'update':
         $kolicina = $_POST["kolicina"];
         $book = BookDB::get($id);
