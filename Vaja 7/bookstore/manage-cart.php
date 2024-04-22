@@ -35,6 +35,18 @@ switch ($cart_action) {
     // Hint: when changing the quantities, make sure you set the
     // "cart_action" variable to "edit"
 
+    case 'update':
+        $kolicina = $_POST["kolicina"];
+        $book = BookDB::get($id);
+        if ($kolicina != 0) {
+            $_SESSION["cart"][$id] = $kolicina;
+        } else {
+            unset($_SESSION["cart"][$id]);
+        }
+        header("Location: index.php");
+        break;
+        
+
     case 'purge_cart':
         // empties the whole cart by simply unsetting the session variable
         unset($_SESSION["cart"]);

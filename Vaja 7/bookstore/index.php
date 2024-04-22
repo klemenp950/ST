@@ -32,12 +32,21 @@ if (!empty($cart)): ?>
     <div class="cart">
         <h3>Shopping cart</h3>
         <?php 
-        // TODO 1: Implement the display of items that are in the cart
-        // TODO 2: Change the display to work as a form for changing the cart items
         $total = 0;
-        foreach ($cart as $id => $quantity): ?>
-            <p>book id=<?= $id ?>, quantity=<?= $quantity ?></p>
+        foreach ($cart as $id => $quantity): 
+            $book = BookDB::get($id);
+            $total += $book['price'] * $quantity;
+        ?>
+            <form action="manage-cart.php" method="post">
+                <input type="hidden" name="cart_action" value="update">
+                <input type="hidden" name="id" value="<?= $book["id"] ?>">
+                <p><input type="number" name="kolicina" value="<?=$quantity?>" style="width: 30px;"> x
+                <?= $book['title'] ?>,  Količina: <?= $quantity ?>
+                <button>Update</button></p>
+            </form>
         <?php endforeach; ?>
+
+        <p>Total: <?=  number_format($total, 2, ",")  ?></p>
 
         <form action="manage-cart.php" method="post">
             <input type="hidden" name="cart_action" value="purge_cart">
