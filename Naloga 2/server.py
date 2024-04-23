@@ -1,10 +1,8 @@
 """An example of a simple HTTP server."""
 import json
 import mimetypes
-import os
 import pickle
 import socket
-import string
 from os import listdir
 from os.path import isdir, isfile, join
 from urllib.parse import unquote_plus
@@ -142,6 +140,13 @@ def read_from_db(criteria=None):
         return []
 
 
+def obstaja(uri):
+    try:
+        if isfile(uri) or isdir(uri):
+            return True
+    except Exception as e:
+        return False
+
 def response200(connection, uri):
     client = connection.makefile("wrb")
     with open(uri, "rb") as h:
@@ -185,11 +190,11 @@ def response301(connection, pot):
 
 
 def preisci_mapo(ime, pot):
-    for el in os.listdir(pot):
-        polno_ime = os.path.join(pot, el)
-        if os.path.isdir(polno_ime):
+    for el in listdir(pot):
+        polno_ime = pot + "/" + el
+        if isdir(polno_ime):
             pot_datoteke = preisci_mapo(ime, polno_ime)
-            if pot_datoteke:
+            if pot_datoteke is not None:
                 return pot_datoteke
         elif el == ime:
             return polno_ime
@@ -209,24 +214,24 @@ def process_request(connection, address):
             response405(connection)
         elif version != "HTTP/1.1":
             response400(connection)
-        elif not os.path.exists(uri):
+        elif not obstaja(uri):
             client = connection.makefile("wrb")
-            pot = ".\\" + preisci_mapo(ime, "www-data")
-            if pot:
-                with open(pot, "rb") as h:
+            pot = preisci_mapo(ime, "./www-data")
+            if pot is None:
+                response404(connection)
+            else:
+                with open(".\\" + pot, "rb") as h:
                     body = h.read()
                 mime_type, _ = mimetypes.guess_type(pot)
                 response301(connection, pot)
-            else:
-                response400(connection)
             client.close()
-        elif os.path.exists(uri):
+        elif obstaja(uri):
             if uri[-1] != '/':
-                if os.path.isfile(uri):
+                if isfile(uri):
                     response200(connection, uri)
-                elif os.path.isdir(uri):
+                elif isdir(uri):
                     pot = uri + "/index.html"
-                    if os.path.exists(pot):
+                    if obstaja(pot):
                         with open(pot, "rb") as h:
                             body = h.read()
                         response301(connection, pot)
@@ -235,16 +240,21 @@ def process_request(connection, address):
                 else:
                     response404(connection)
             else:
-                if os.path.isdir(uri):
+                if isdir(uri):
                     pot = uri + "index.html"
-                    if os.path.isfile(pot):
+                    if isfile(pot):
                         response200(connection, pot)
                     else:
-                        arr = listdir(uri)
-                        seznam = ""
+                        arr = sorted(listdir(uri), key=lambda x: x[0], reverse=False)
+                        seznam = """"""
+                        seznam += FILE_TEMPLATE.replace("%s", "..") + "\n"
                         for element in arr:
-                            seznam += FILE_TEMPLATE.replace("%s", element)
+                            seznam += FILE_TEMPLATE.replace("%s", element) + "\n"
                         body = DIRECTORY_LISTING.replace("{{CONTENTS}}", seznam)
+                        body = body % (
+                            "/"+uri.split("/")[-2]+"/",
+                            "/"+uri.split("/")[-2]+"/"
+                        )
                         client = connection.makefile("wrb")
                         header = RESPONSE_200 % (
                             "text/html",
