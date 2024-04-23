@@ -4,6 +4,7 @@ import mimetypes
 import os
 import pickle
 import socket
+import string
 from os import listdir
 from os.path import isdir, isfile, join
 from urllib.parse import unquote_plus
@@ -24,8 +25,6 @@ connection: Close\r
 
 RESPONSE_301 = """HTTP/1.1 301 Moved Permanently\r
 location: %s\r
-content-type: %s\r
-content-length: %d\r
 connection: Close\r
 \r
 """
@@ -143,6 +142,48 @@ def read_from_db(criteria=None):
         return []
 
 
+def response200(connection, uri):
+    client = connection.makefile("wrb")
+    with open(uri, "rb") as h:
+        body = h.read()
+    mime_type, _ = mimetypes.guess_type(uri)
+    header = RESPONSE_200 % (
+        mime_type,
+        len(body)
+    )
+    client.write(header.encode("utf8"))
+    client.write(body)
+    client.close()
+
+
+def response400(connection):
+    client = connection.makefile("wrb")
+    client.write(RESPONSE_400.encode("utf8"))
+    client.close()
+
+
+def response404(connection):
+    client = connection.makefile("wrb")
+    client.write(RESPONSE_404.encode("utf8"))
+    client.close()
+
+
+def response405(connection):
+    client = connection.makefile("wrb")
+    client.write(RESPONSE_405.encode("utf8"))
+    client.close()
+
+
+def response301(connection, pot):
+    client = connection.makefile("wrb")
+    pot = pot.replace("\\", "/")
+    header = RESPONSE_301 % (
+        pot[10:]
+    )
+    client.write(header.encode("utf8"))
+    client.close()
+
+
 def preisci_mapo(ime, pot):
     for el in os.listdir(pot):
         polno_ime = os.path.join(pot, el)
@@ -156,62 +197,67 @@ def preisci_mapo(ime, pot):
 
 
 def process_request(connection, address):
-    """Process an incoming socket request.
-
-    :param connection is a socket of the client
-    :param address is a 2-tuple (address(str), port(int)) of the client
-    """
-
-    # Read and parse the request line
-
-    # Read and parse headers
-
-    # Read and parse the body of the request (if applicable)
-
-    # create the response
-
-    # Write the response back to the socket
-
     client = connection.makefile("wrb")
     line = client.readline().decode("utf-8").strip()
+    client.close()
 
     try:
         metoda, uri, version = line.split()
+        uri = "./www-data" + uri
         ime = uri.split("/")[-1]
         if metoda != "GET" and metoda != "POST":
-            client.write(RESPONSE_405.encode("utf8"))
-        elif version != "HTTP/1.1" or not os.path.isfile("./www-data" + uri):
-            client.write(RESPONSE_400.encode("utf8"))
-        elif not os.path.exists("./www-data" + uri):
+            response405(connection)
+        elif version != "HTTP/1.1":
+            response400(connection)
+        elif not os.path.exists(uri):
+            client = connection.makefile("wrb")
             pot = ".\\" + preisci_mapo(ime, "www-data")
             if pot:
                 with open(pot, "rb") as h:
                     body = h.read()
                 mime_type, _ = mimetypes.guess_type(pot)
-                pot = pot.replace("\\", "/")
-                header = RESPONSE_301 % (
-                    pot[10:],
-                    mime_type,
-                    len(body)
-                )
-                client.write(header.encode("utf8"))
-                client.close()
+                response301(connection, pot)
             else:
-                client.write(RESPONSE_404.encode("utf"))
-        elif os.path.exists("./www-data" + uri) and os.path.isfile("./www-data" + uri):
-            with open(("www-data" + uri), "rb") as h:
-                body = h.read()
-            mime_type, _ = mimetypes.guess_type(uri)
-            header = RESPONSE_200 % (
-                mime_type,
-                len(body)
-            )
-            client.write(header.encode("utf8"))
-            client.write(body)
+                response400(connection)
+            client.close()
+        elif os.path.exists(uri):
+            if uri[-1] != '/':
+                if os.path.isfile(uri):
+                    response200(connection, uri)
+                elif os.path.isdir(uri):
+                    pot = uri + "/index.html"
+                    if os.path.exists(pot):
+                        with open(pot, "rb") as h:
+                            body = h.read()
+                        response301(connection, pot)
+                    else:
+                        response301(connection, uri + "/")
+                else:
+                    response404(connection)
+            else:
+                if os.path.isdir(uri):
+                    pot = uri + "index.html"
+                    if os.path.isfile(pot):
+                        response200(connection, pot)
+                    else:
+                        arr = listdir(uri)
+                        seznam = ""
+                        for element in arr:
+                            seznam += FILE_TEMPLATE.replace("%s", element)
+                        body = DIRECTORY_LISTING.replace("{{CONTENTS}}", seznam)
+                        client = connection.makefile("wrb")
+                        header = RESPONSE_200 % (
+                            "text/html",
+                            len(body)
+                        )
+                        client.write(header.encode("utf8"))
+                        client.write(body.encode("utf8"))
+                        client.close()
+
     except Exception as e:
         print(e)
-        client.write(RESPONSE_400.encode("utf8"))
-    client.close()
+        print(e.args)
+        client.close()
 
 
 def main(port):
