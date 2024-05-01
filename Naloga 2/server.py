@@ -184,7 +184,7 @@ def response301(connection, pot):
     client = connection.makefile("wrb")
     pot = pot.replace("\\", "/")
     header = RESPONSE_301 % (
-        pot[10:]
+        pot
     )
     client.write(header.encode("utf8"))
     client.close()
@@ -211,12 +211,12 @@ def handle_ne_obstaja(connection, datoteka):
 
 
 def vrni_mapo(connection, uri):
-    arr = sorted(listdir(uri), key=lambda x: x[0], reverse=False)
+    arr = sorted(listdir(uri), key=lambda x: x, reverse=False)
 
-    seznam = """"""
-    seznam += FILE_TEMPLATE.replace("%s", "..") + "\n"
+    seznam = ""
+    seznam += FILE_TEMPLATE.replace("%s", "..")
     for element in arr:
-        seznam += FILE_TEMPLATE.replace("%s", element) + "\n"
+        seznam += FILE_TEMPLATE.replace("%s", element)
     body = DIRECTORY_LISTING.replace("{{CONTENTS}}", seznam)
     body = body % (
         "/" + uri.split("/")[-2] + "/",
@@ -232,7 +232,7 @@ def vrni_mapo(connection, uri):
     client.close()
 
 
-def process_request(connection, address):
+def process_request(connection, address, port):
     client = connection.makefile("wrb")
     line = client.readline().decode("utf-8").strip()
     try:
@@ -254,7 +254,7 @@ def process_request(connection, address):
                         if obstaja(uri + "/index.html"):
                             response200(connection, uri + "/index.html")
                         else:
-                            response301(connection, uri + "/")
+                            response301(connection, "http://localhost:" + str(port) + "/listing/")
                     else:
                         handle_ne_obstaja(connection, datoteka)
             elif metoda == "POST":
@@ -284,7 +284,7 @@ def main(port):
     while True:
         connection, address = server.accept()
         print("[%s:%d] CONNECTED" % address)
-        process_request(connection, address)
+        process_request(connection, address, port)
         connection.close()
         print("[%s:%d] DISCONNECTED" % address)
 
