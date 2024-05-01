@@ -11,7 +11,7 @@ from urllib.parse import unquote_plus
 PICKLE_DB = "db.pkl"
 
 # Directory containing www data
-WWW_DATA = "./www-data"
+WWW_DATA = "www-data"
 
 # Header template for a successful HTTP request
 RESPONSE_200 = """HTTP/1.1 200 OK\r
@@ -75,7 +75,7 @@ DIRECTORY_LISTING = """<!DOCTYPE html>
 </ul> 
 """
 
-FILE_TEMPLATE = "  <li><a href='%s'>%s</li>\n"
+FILE_TEMPLATE = "  <li><a href='%s'>%s</li>"
 
 
 def save_to_db(first, last):
@@ -147,7 +147,6 @@ def obstaja(uri):
     except Exception as e:
         return False
 
-
 def response200(connection, uri):
     client = connection.makefile("wrb")
     with open(uri, "rb") as h:
@@ -202,73 +201,72 @@ def preisci_mapo(ime, pot):
     return None
 
 
-def handle_ne_obstaja(connection, datoteka):
-    uri = preisci_mapo(datoteka, WWW_DATA)
-    if uri:
-        response301(connection, uri)
-    else:
-        response404(connection)
-
-
-def vrni_mapo(connection, uri):
-    arr = sorted(listdir(uri), key=lambda x: x[0], reverse=False)
-
-    seznam = """"""
-    seznam += FILE_TEMPLATE.replace("%s", "..") + "\n"
-    for element in arr:
-        seznam += FILE_TEMPLATE.replace("%s", element) + "\n"
-    body = DIRECTORY_LISTING.replace("{{CONTENTS}}", seznam)
-    body = body % (
-        "/" + uri.split("/")[-2] + "/",
-        "/" + uri.split("/")[-2] + "/"
-    )
-    client = connection.makefile("wrb")
-    header = RESPONSE_200 % (
-        "text/html",
-        len(body)
-    )
-    client.write(header.encode("utf8"))
-    client.write(body.encode("utf8"))
-    client.close()
-
-
 def process_request(connection, address):
     client = connection.makefile("wrb")
     line = client.readline().decode("utf-8").strip()
+    client.close()
+
     try:
         metoda, uri, version = line.split()
-        uri = WWW_DATA + uri
-        datoteka = uri.split("/")[-1]
-        if version == "HTTP/1.1":
-            if metoda == "GET":
-                if uri[-1] == "/":
-                    if isdir(uri):
-                        if obstaja(uri + "index.html"):
-                            response200(connection, uri + "index.html")
-                        else:
-                            vrni_mapo(connection, uri)
-                else:
-                    if isfile(uri):
-                        response200(connection, uri)
-                    elif isdir(uri + "/"):
-                        if obstaja(uri + "/index.html"):
-                            response200(connection, uri + "/index.html")
-                        else:
-                            response301(connection, uri + "/")
-                    else:
-                        handle_ne_obstaja(connection, datoteka)
-            elif metoda == "POST":
-                if datoteka == "app-add":
-                    pass
-                response405(connection)
-
-            else:
-                response405(connection)
-        else:
+        uri = "./www-data" + uri
+        ime = uri.split("/")[-1]
+        if metoda != "GET" and metoda != "POST":
+            response405(connection)
+        elif version != "HTTP/1.1":
             response400(connection)
+        elif not obstaja(uri):
+            client = connection.makefile("wrb")
+            pot = preisci_mapo(ime, "./www-data")
+            if pot is None:
+                response404(connection)
+            else:
+                with open(".\\" + pot, "rb") as h:
+                    body = h.read()
+                mime_type, _ = mimetypes.guess_type(pot)
+                response301(connection, pot)
+            client.close()
+        elif obstaja(uri):
+            if uri[-1] != '/':
+                if isfile(uri):
+                    response200(connection, uri)
+                elif isdir(uri):
+                    pot = uri + "/index.html"
+                    if obstaja(pot):
+                        with open(pot, "rb") as h:
+                            body = h.read()
+                        response301(connection, pot)
+                    else:
+                        response301(connection, uri + "/")
+                else:
+                    response404(connection)
+            else:
+                if isdir(uri):
+                    pot = uri + "index.html"
+                    if isfile(pot):
+                        response200(connection, pot)
+                    else:
+                        arr = sorted(listdir(uri), key=lambda x: x[0], reverse=False)
+                        seznam = """"""
+                        seznam += FILE_TEMPLATE.replace("%s", "..") + "\n"
+                        for element in arr:
+                            seznam += FILE_TEMPLATE.replace("%s", element) + "\n"
+                        body = DIRECTORY_LISTING.replace("{{CONTENTS}}", seznam)
+                        body = body % (
+                            "/"+uri.split("/")[-2]+"/",
+                            "/"+uri.split("/")[-2]+"/"
+                        )
+                        client = connection.makefile("wrb")
+                        header = RESPONSE_200 % (
+                            "text/html",
+                            len(body)
+                        )
+                        client.write(header.encode("utf8"))
+                        client.write(body.encode("utf8"))
+                        client.close()
+
     except Exception as e:
         print(e)
-        response400(connection)
+        print(e.args)
         client.close()
 
 
