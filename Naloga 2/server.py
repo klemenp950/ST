@@ -162,6 +162,18 @@ def response200(connection, uri):
     client.close()
 
 
+def response200app(connection, uri, body):
+    client = connection.makefile("wrb")
+    mime_type, _ = mimetypes.guess_type(uri)
+    header = RESPONSE_200 % (
+        mime_type,
+        len(body)
+    )
+    client.write(header.encode("utf8"))
+    client.write(body.encode("utf8"))
+    client.close()
+
+
 def response400(connection):
     client = connection.makefile("wrb")
     client.write(RESPONSE_400.encode("utf8"))
@@ -232,12 +244,53 @@ def vrni_mapo(connection, uri):
     client.close()
 
 
+def handle_app_index(connection, atributi):
+    client = connection.makefile("wrb")
+    if atributi == "":
+        zapis = read_from_db()
+    else:
+        zapis = read_from_db(atributi)
+    tabela_telo = ""
+    for el in zapis:
+        st = int(el["number"])
+        print(type(st))
+        first = el["first"]
+        last = el["last"]
+        vrstica = TABLE_ROW % (
+            st,
+            first,
+            last
+        )
+
+        tabela_telo += vrstica
+    with open(WWW_DATA + "/app_list.html", encoding='utf-8') as dat:
+        body = str(dat.read())
+        body = body.replace("{{students}}", tabela_telo)
+    response200app(connection, WWW_DATA + "/app_list.html", body)
+
+
+def reffactor_attributes(attr):
+    slovar = dict()
+    parametri = attr.split("&")
+    for element in parametri:
+        key, value = str(element).split("=")
+        slovar[key] = value
+    return slovar
+
+
 def process_request(connection, address, port):
     client = connection.makefile("wrb")
     line = client.readline().decode("utf-8").strip()
     try:
         metoda, uri, version = line.split()
-        uri = WWW_DATA + uri
+        attr = ""
+        temp = uri.split("?")
+        if len(temp) > 1:
+            attr = temp[1]
+        uri = WWW_DATA + temp[0]
+        atributi = ""
+        if attr:
+            atributi = reffactor_attributes(attr)
         datoteka = uri.split("/")[-1]
         if version == "HTTP/1.1":
             if metoda == "GET":
@@ -248,6 +301,8 @@ def process_request(connection, address, port):
                         else:
                             vrni_mapo(connection, uri)
                 else:
+                    if uri == WWW_DATA + "/app-index":
+                        handle_app_index(connection, atributi)
                     if isfile(uri):
                         response200(connection, uri)
                     elif isdir(uri + "/"):
