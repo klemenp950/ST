@@ -174,6 +174,18 @@ def response200app(connection, uri, body):
     client.close()
 
 
+def response200json(connection, body):
+    client = connection.makefile("wrb")
+    mime_type = "application/json"
+    header = RESPONSE_200 % (
+        mime_type,
+        len(body)
+    )
+    client.write(header.encode("utf8"))
+    client.write(body.encode("utf8"))
+    client.close()
+
+
 def response400(connection):
     client = connection.makefile("wrb")
     client.write(RESPONSE_400.encode("utf8"))
@@ -301,6 +313,16 @@ def handle_app_add(client, connection):
     client.close()
 
 
+def handle_app_json(connection, atributi):
+    client = connection.makefile("wrb")
+    if atributi == "":
+        zapis = read_from_db()
+    else:
+        zapis = read_from_db(atributi)
+    podatki = unquote_plus(json.dumps(zapis))
+    response200json(connection, podatki)
+
+
 def process_request(connection, address, port):
     client = connection.makefile("wrb")
     line = client.readline().decode("utf-8").strip()
@@ -327,6 +349,8 @@ def process_request(connection, address, port):
                 else:
                     if uri == WWW_DATA + "/app-index":
                         handle_app_index(connection, atributi)
+                    elif uri == WWW_DATA + "/app-json":
+                        handle_app_json(connection, atributi)
                     elif isfile(uri):
                         response200(connection, uri)
                     elif isdir(uri + "/"):
