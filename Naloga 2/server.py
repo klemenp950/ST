@@ -370,8 +370,8 @@ def process_request(connection, address, port):
         else:
             response400(connection)
     except Exception as e:
-        print(e)
         response400(connection)
+        print(e)
         client.close()
 
 
