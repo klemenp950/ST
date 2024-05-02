@@ -253,7 +253,6 @@ def handle_app_index(connection, atributi):
     tabela_telo = ""
     for el in zapis:
         st = int(el["number"])
-        print(type(st))
         first = el["first"]
         last = el["last"]
         vrstica = TABLE_ROW % (
@@ -278,11 +277,36 @@ def reffactor_attributes(attr):
     return slovar
 
 
+def parse_headers(client):
+    headers = dict()
+    while True:
+        line = client.readline().decode("utf8").strip()
+        if not line:
+            return headers
+
+        key, val = line.split(":", 1)
+        headers[key.strip()] = val.strip()
+
+
+def handle_app_add(client, connection):
+    headers = parse_headers(client)
+    velikost = int(headers["Content-Length"])
+    besedilo = unquote_plus(client.read(velikost).decode("utf8"))
+    par = reffactor_attributes(besedilo)
+    if par["first"] and par["last"]:
+        save_to_db(par["first"], par["last"])
+        response200(connection, WWW_DATA + "/app_add.html")
+    else:
+        response400(connection)
+    client.close()
+
+
 def process_request(connection, address, port):
     client = connection.makefile("wrb")
     line = client.readline().decode("utf-8").strip()
     try:
         metoda, uri, version = line.split()
+        uri = unquote_plus(uri)
         attr = ""
         temp = uri.split("?")
         if len(temp) > 1:
@@ -303,7 +327,7 @@ def process_request(connection, address, port):
                 else:
                     if uri == WWW_DATA + "/app-index":
                         handle_app_index(connection, atributi)
-                    if isfile(uri):
+                    elif isfile(uri):
                         response200(connection, uri)
                     elif isdir(uri + "/"):
                         if obstaja(uri + "/index.html"):
@@ -314,7 +338,7 @@ def process_request(connection, address, port):
                         handle_ne_obstaja(connection, datoteka)
             elif metoda == "POST":
                 if datoteka == "app-add":
-                    pass
+                    handle_app_add(client, connection)
                 response405(connection)
 
             else:
