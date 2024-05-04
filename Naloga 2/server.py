@@ -357,7 +357,7 @@ def process_request(connection, address, port):
                         if obstaja(uri + "/index.html"):
                             response200(connection, uri + "/index.html")
                         else:
-                            response301(connection, "http://localhost:" + str(port) + "/listing/")
+                            response301(connection, "http://localhost:" + str(port) + "/" + datoteka + "/")
                     else:
                         handle_ne_obstaja(connection, datoteka)
             elif metoda == "POST":
