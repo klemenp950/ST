@@ -10,8 +10,9 @@ class UserDB {
 
         // !!! NEVER CONSTRUCT SQL QUERIES THIS WAY !!!
         // INSTEAD, ALWAYS USE PREPARED STATEMENTS AND BIND PARAMETERS!
-        $query = "SELECT COUNT(id) FROM user WHERE username = '$username' AND password = '$password'";
-        $stmt = $dbh->prepare($query);
+        $stmt = $dbh->prepare("SELECT COUNT(id) FROM user WHERE username = :username AND password = :password");
+        $stmt->bindParam(":username", $username);
+        $stmt->bindParam(":password", $password);
         $stmt->execute();
 
         return $stmt->fetchColumn(0) == 1;

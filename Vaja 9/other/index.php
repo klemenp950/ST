@@ -16,13 +16,16 @@
 
 <p>What if someone sends you a <a href="index.php/%22%3E%3Cscript%3Ealert%28%27XSS%20attack%27%29%3C/script%3E/%22%3E">nice link like this?</a></p>
 
-<?php if (isset($_POST["name"])): ?>
-
-    <p>Hello <b><?= $_POST["name"] ?></b>!</p>
+<?php 
+$post = ""; 
+if (isset($_POST["name"])) {
+    $post = strip_tags($_POST["name"]);
+}
+if ($post != ""): ?>
+    <p>Hello <b><?= $post ?></b>!</p>
 
 <?php else: ?>
-    
-    <form action="<?= $_SERVER["PHP_SELF"] ?>" method="post">
+    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
         <label>Your name: <input type="text" name="name" required autofocus /></label>
         <button>Send</button>
     </form>

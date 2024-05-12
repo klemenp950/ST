@@ -65,7 +65,7 @@ class BookController {
             "year" => [
                 // The year can only be between 1500 and 2020
                 "filter" => FILTER_VALIDATE_INT,
-                "options" => ["min_range" => 1500, "max_range" => 2020]
+                "options" => ["min_range" => 1500, "max_range" => 2024]
             ],
             "price" => [
                 // We provide a custom function that verifies the data. 
@@ -120,9 +120,50 @@ class BookController {
 
     public static function edit() {
         // TODO: Implement server-side validation, similar to the one for adding books
+        $rules = [
+            "id" => [
+                "filter" => FILTER_VALIDATE_INT
+            ],
+            "author" => [
+                // Only letters, dots, spaces and dashes are allowed
+                "filter" => FILTER_VALIDATE_REGEXP,
+                "options" => ["regexp" => "/^[ a-zA-ZšđčćžŠĐČĆŽ\.\-]+$/"]
+            ],
+            // we convert HTML special characters
+            "title" => FILTER_SANITIZE_SPECIAL_CHARS,
+            "description" => FILTER_SANITIZE_SPECIAL_CHARS,
+            "year" => [
+                // The year can only be between 1500 and 2020
+                "filter" => FILTER_VALIDATE_INT,
+                "options" => ["min_range" => 1500, "max_range" => 2024]
+            ],
+            "price" => [
+                // We provide a custom function that verifies the data. 
+                // If the data is not OK, we return false, otherwise we return the data
+                "filter" => FILTER_CALLBACK,
+                "options" => function ($value) { return (is_numeric($value) && $value >= 0) ? floatval($value) : false; }
+            ],
+            "quantity" => [
+                // The minimum quantity should be at least 10
+                "filter" => FILTER_VALIDATE_INT,
+                "options" => ["min_range" => 10]
+            ]
+        ];
+        // Apply filter to all POST variables; from here onwards we never
+        // access $_POST directly, but use the $data array
+        $data = filter_input_array(INPUT_POST, $rules);
+        $errors["author"] = $data["author"] === false ? "Provide the name of the author: only letters, dots, dashes and spaces are allowed." : "";
+        $errors["title"] = empty($data["title"]) ? "Provide the book title." : "";
+        $errors["year"] = $data["year"] === false ? "Year should be between 1500 and 2020." : "";
+        $errors["price"] = $data["price"] === false ? "Price should be non-negative." : "";
+        $errors["quantity"] = $data["quantity"] === false ? "Quantity should be at least 10." : "";
+
+        // Is there an error?
         $isDataValid = true;
-        $data = $_POST;
-        
+        foreach ($errors as $error) {
+            $isDataValid = $isDataValid && empty($error);
+        }
+
         if ($isDataValid) {
             BookDB::update($data["id"], $data["author"], $data["title"], $data["description"], 
                 $data["price"], $data["year"], $data["quantity"]);
