@@ -75,4 +75,15 @@ class StoreController {
         Cart::purge();
         self::ajaxCartContents();
     }
+
+    public static function ajaxUpdateCart() {
+        $id = (isset($_POST["id"])) ? intval($_POST["id"]) : null;
+        $quantity = (isset($_POST["quantity"])) ? intval($_POST["quantity"]) : null;
+
+        if ($id !== null && $quantity !== null) {
+            Cart::update($id, $quantity);
+        }
+
+        self::ajaxCartContents();
+    }
 }

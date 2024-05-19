@@ -12,25 +12,24 @@
 
 <script>
 $(document).ready(() => {
-    $("#purge-cart").click(event => {
-        $.post(
-            "<?= BASE_URL . "ajax/purge-cart" ?>",
-            function(data, status){
+    $("#purge-cart").click(function(){
+        $.post("<?= BASE_URL ."ajax/purge-cart" ?>",
+            function(data){
                 $("#cart").html(data);
-            }   
-        )
-    })
-    /* TODO: Implement jQuery AJAX:
-        1) one event listener that purges all items from the cart
-        2) another that updates the quantity of one item in the cart
+            }
+    )
+    });
+    $(".update-cart").change(function(){
+        $.post("<?= BASE_URL ."ajax/update-cart" ?>",
+        {id: $(this).data("id"), quantity: $(this).val()},
 
-        Hint 0: Check how cart additions are implemented.
+            function(data){
+                $("#cart").html(data);
+            }
+    )
+    console.log({id: $(this).data("id"), quantity: $(this).val()})
 
-        Hint 1: you may use AJAX shorthand methods, like $.post or $.get.
-            https://api.jquery.com/jquery.post
+    });
 
-        Hint 2: for updating the quantity, use the change event listener.
-            https://api.jquery.com/change/
-    */
 });
 </script>
