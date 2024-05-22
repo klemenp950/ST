@@ -59,14 +59,14 @@ class UserController {
     }
 
     public static function notLoggedIn(){
-        $vars = [
-            "errorMessage" => "Invalid username or password."
-        ];
+        $vars = [];
         ViewHelper::render("view/not-logged-in.php", $vars);
     }
 
     public static function logout() {
+        session_start();
         unset($_SESSION["username"]);
+        session_destroy();
         ViewHelper::redirect(BASE_URL . "index");
     }
 

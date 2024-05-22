@@ -1,4 +1,8 @@
-
+<?php
+if (!isset($_SESSION["username"])) {
+  session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,26 +27,7 @@
   
 </div>
 
-<div class="jumbotron text-center row" style="margin-bottom:0">
-  <div class="col">
-    <b>FilmBuzz</b> <br>
-    Pozdravljeni na spletni strani najbolj entuziastičnih filmskih navdušencev v Sloveniji.
-  </div>
-  <div class="col" style="text-align: center;">
-    <ul style="list-style-position: inside; display: inline-block; text-align: left;">
-      <li><a href="">GitHub</a></li>
-      <li>Second item</li>
-      <li>Third item</li>
-    </ul>
-  </div>
-  <div class="col">
-  <b>Kontakt</b> <br>
-    FilmBuzz d.o.o. <br>
-    Telefon: +386 1 234 5678 <br>
-    Email: info@filmbuzz.si
-  </div>
-</div>
-
+<?php include("footer.php")?>
 
 </body>
 </html>

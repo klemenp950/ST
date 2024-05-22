@@ -15,11 +15,12 @@
 <body>
     <div class="jumbotron text-center" style="margin-bottom:0">
         <h1><?= $_SESSION["username"] ?></h1>
+        <p>Spremenite podatke o Vašem FilmBuzz profilu</p>
     </div>
      
     <?php include("navbar.php"); ?>
 
-    <div style="margin: auto; width: 300px;">
+    <div style="margin: 30px auto; width: 300px;">
         <form action="<?= BASE_URL . "user/alter-user" ?>" method="post">
             <div class="form-group">
                 <label for="formGroupExampleInput">Novo uporabniško ime:</label>
@@ -47,5 +48,7 @@
             </div>
         </form>
     </div>
+
+    <?php include("footer.php") ?>
 </body>
 </html>

@@ -19,7 +19,7 @@ $urls = [
         ViewHelper::redirect(BASE_URL . "index");
     }, "index" => function() {
         FilmController::index();
-    }, "not-logged-in" => function () {
+    }, "view/not-logged-in" => function () {
         UserController::notLoggedIn();
     }, "view/login" => function () {
         UserController::showLoginForm();

@@ -1,138 +1,27 @@
-<!-- Remove the container if you want to extend the Footer to full width. -->
-<div class="container my-5">
-  <!-- Footer -->
-  <footer
-          class="text-center text-lg-start text-white"
-          style="background-color: #929fba"
-          >
-    <!-- Grid container -->
-    <div class="container p-4 pb-0">
-      <!-- Section: Links -->
-      <section class="">
-        <!--Grid row-->
-        <div class="row">
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-            <h6 class="text-uppercase mb-4 font-weight-bold">
-              FilmBuzz
-            </h6>
-            <p>
-              Pozdravljeni v nogi spletne strani največjih filmskih evtuziastov v Sloveniji.
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <hr class="w-100 clearfix d-md-none" />
-
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-            <h6 class="text-uppercase mb-4 font-weight-bold">Produkti</h6>
-            <p>
-              <a class="text-white">Produkt 1</a>
-            </p>
-            <p>
-              <a class="text-white">Produkt 2</a>
-            </p>
-            <p>
-              <a class="text-white">Produkt 3</a>
-            </p>
-            <p>
-              <a class="text-white">Produkt 4</a>
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <hr class="w-100 clearfix d-md-none" />
-
-          <!-- Grid column -->
-          <hr class="w-100 clearfix d-md-none" />
-
-          <!-- Grid column -->
-          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-            <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
-            <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-            <p><i class="fas fa-envelope mr-3"></i> info@gmail.com</p>
-            <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
-            <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-            <h6 class="text-uppercase mb-4 font-weight-bold">Follow us</h6>
-
-            <!-- Facebook -->
-            <a
-               class="btn btn-primary btn-floating m-1"
-               style="background-color: #3b5998"
-               href="#!"
-               role="button"
-               ><i class="fab fa-facebook-f"></i
-              ></a>
-
-            <!-- Twitter -->
-            <a
-               class="btn btn-primary btn-floating m-1"
-               style="background-color: #55acee"
-               href="#!"
-               role="button"
-               ><i class="fab fa-twitter"></i
-              ></a>
-
-            <!-- Google -->
-            <a
-               class="btn btn-primary btn-floating m-1"
-               style="background-color: #dd4b39"
-               href="#!"
-               role="button"
-               ><i class="fab fa-google"></i
-              ></a>
-
-            <!-- Instagram -->
-            <a
-               class="btn btn-primary btn-floating m-1"
-               style="background-color: #ac2bac"
-               href="#!"
-               role="button"
-               ><i class="fab fa-instagram"></i
-              ></a>
-
-            <!-- Linkedin -->
-            <a
-               class="btn btn-primary btn-floating m-1"
-               style="background-color: #0082ca"
-               href="#!"
-               role="button"
-               ><i class="fab fa-linkedin-in"></i
-              ></a>
-            <!-- Github -->
-            <a
-               class="btn btn-primary btn-floating m-1"
-               style="background-color: #333333"
-               href="#!"
-               role="button"
-               ><i class="fab fa-github"></i
-              ></a>
-          </div>
-        </div>
-        <!--Grid row-->
-      </section>
-      <!-- Section: Links -->
+<div class="jumbotron text-center" style="margin-bottom: 0px;">
+  <div class="row">
+    <div class="col">
+      <b>FilmBuzz</b> <br>
+      Pozdravljeni na spletni strani najbolj entuziastičnih filmskih navdušencev v Sloveniji.
     </div>
-    <!-- Grid container -->
-
-    <!-- Copyright -->
-    <div
-         class="text-center p-3"
-         style="background-color: rgba(0, 0, 0, 0.2)"
-         >
-      © 2020 Copyright:
-      <a class="text-white" href="https://mdbootstrap.com/"
-         >MDBootstrap.com</a
-        >
+    <div class="col" style="text-align: center;">
+      <ul style="list-style-position: inside; display: inline-block; text-align: left;">
+        <li><a href="<?= BASE_URL . "index"?>">FilmBuzz</a></li>
+        <li><a target="_blank" href="https://github.com/klemenp950/ST/tree/main/Naloga%203">GitHub</a></li>
+        <li><a target="_blank" href="https://getbootstrap.com/docs/4.6/getting-started/introduction/">Bootstrap 4</a></li>
+      </ul>
     </div>
-    <!-- Copyright -->
-  </footer>
-  <!-- Footer -->
+    <div class="col">
+    <b>Kontakt</b> <br>
+      FilmBuzz d.o.o. <br>
+      Telefon: +386 1 234 5678 <br>
+      Email: info@filmbuzz.si
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <br>
+      © 2024 Copyright: Klemen Parkelj
+    </div>
+  </div>
 </div>
-<!-- End of .container -->

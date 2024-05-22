@@ -22,7 +22,7 @@
           <a class="nav-link" href="<?= BASE_URL . "view/login"?>">Prijava</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?= BASE_URL . "view/register"?>">Regisracija</a>
+          <a class="nav-link" href="<?= BASE_URL . "view/register"?>">Registracija</a>
         </li>
       <?php } ?>  
     </ul>
