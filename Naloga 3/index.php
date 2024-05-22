@@ -27,9 +27,15 @@ $urls = [
         UserController::showRegisterForm();
     }, "user/register" => function() {
         UserController::addUser();
-        UserController::login();
     }, "user/logout" => function () {
         UserController::logout();
+    }, "user/alter-user" => function () {
+        UserController::alterUser();
+        ViewHelper::redirect(BASE_URL . "index");
+    }, "user/info" => function () {
+        UserController::showUserInfo();
+    }, "view/add-film" => function() {
+        FilmController::showAddFilm();
     }
 ];
 

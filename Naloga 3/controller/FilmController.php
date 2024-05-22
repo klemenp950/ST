@@ -12,5 +12,10 @@ class FilmController {
         ViewHelper::render("view/index.php", $vars);
     }
 
+    public static function showAddFilm(){
+        $vars = [];
+        ViewHelper::render("view/add-film.php", $vars);
+    }
+
 }
 ?>

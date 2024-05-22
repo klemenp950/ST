@@ -30,4 +30,26 @@ class UserDB {
 
         $stmt->execute();
     }
+
+    public static function alterUser($username, $newUsername, $newPassword){
+        $db = DBInit::getInstance();
+
+        $stmt = $db -> prepare("UPDATE user SET username = :newUsername, password = :newPassword WHERE username = :username");
+        $stmt -> bindParam("newUsername", $newUsername);
+        $stmt -> bindParam("newPassword", $newPassword);
+        $stmt -> bindParam("username", $username);
+        $stmt -> execute();
+    }
+
+    public static function userAvailable($username){
+        $dbh = DBInit::getInstance();
+
+        // !!! NEVER CONSTRUCT SQL QUERIES THIS WAY !!!
+        // INSTEAD, ALWAYS USE PREPARED STATEMENTS AND BIND PARAMETERS!
+        $stmt = $dbh->prepare("SELECT COUNT(id) FROM user WHERE username = :username");
+        $stmt->bindParam(":username", $username);
+        $stmt->execute();
+
+        return $stmt->fetchColumn(0) == 0;
+    }
 }
