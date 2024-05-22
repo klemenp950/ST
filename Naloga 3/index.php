@@ -36,6 +36,8 @@ $urls = [
         UserController::showUserInfo();
     }, "view/add-film" => function() {
         FilmController::showAddFilm();
+    }, "film/add" => function () {
+        FilmController::addFilm();
     }
 ];
 

@@ -1,4 +1,4 @@
-<div class="jumbotron text-center" style="margin-bottom: 0px;">
+<div class="jumbotron text-center mb-0">
   <div class="row">
     <div class="col">
       <b>FilmBuzz</b> <br>

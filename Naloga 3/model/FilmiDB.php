@@ -53,13 +53,14 @@ class FilmiDB{
         $statement->execute();
     }
     
-    public static function insert($naslov, $leto, $direktor){
+    public static function insert($naslov, $leto, $direktor, $slika){
         $db = DBInit::getInstance();
 
-        $stmt = $db->prepare("INSERT INTO film (naslov, leto, direktor) VALUES (:naslov, :leto, :direktor)");
-        $stmt->bindColumn(":naslov", $naslov);
-        $stmt->bindColumn(":leto", $leto);
-        $stmt->bindColumn(":direktor", $direktor);
+        $stmt = $db->prepare("INSERT INTO film (naslov, leto, direktor, slika) VALUES (:naslov, :leto, :direktor, :slika)");
+        $stmt->bindParam(":naslov", $naslov);
+        $stmt->bindParam(":leto", $leto);
+        $stmt->bindParam(":direktor", $direktor);
+        $stmt->bindParam(":slika", $slika);
 
         $stmt->execute();
     }
