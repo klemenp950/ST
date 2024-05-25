@@ -2,6 +2,7 @@
 
 require_once("controller/FilmController.php");
 require_once("controller/UserController.php");
+require_once("controller/DirektorController.php");
 
 define("BASE_URL", $_SERVER["SCRIPT_NAME"] . "/");
 define("IMAGES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/images/");
@@ -38,6 +39,14 @@ $urls = [
         FilmController::showAddFilm();
     }, "film/add" => function () {
         FilmController::addFilm();
+    }, "api/getDirectors" => function() {
+        DirektorController::getAllJson();
+    }, "view/add-director" => function() {
+        DirektorController::showAddDirector();
+    }, "director/add" => function() {
+        DirektorController::addDirector();
+    }, "api/getFilms" => function() {
+        FilmController::getAllJson();
     }
 ];
 

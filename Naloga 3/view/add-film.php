@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -34,7 +35,9 @@
             </div>
             <div class="form-group">
                 <label for="letoFilma">Direktor: </label>
-                <input class="form-control" type="text" name="direktorFilma" required>
+                <select class="form-control" id="direktorFilma" name="direktorFilma" required>
+                    
+                </select>
             </div>
             <div class="form-group">
                 <label for="letoFilma">Leto: </label>
@@ -44,7 +47,7 @@
                 <button class="btn btn-dark" type="submit">Shrani</button>
             </div>
                 <?php if (!empty($fileError)): ?>
-                    <p style="color: red;"><?= $errorMessage ?></p>
+                    <p style="color: red;"><?= $fileError ?></p>
                 <?php endif; ?>
         </form>
     </div>
@@ -55,13 +58,25 @@
 
 </body>
 <script>
-    $(document).ready(function(){
-        $("#datoteka").change(function(){
+    $(document).ready(function() {
+        $("#datoteka").change(function() {
             var file = this.files[0];
             var fileName = file.name;
-        $("#datotekaLabel").text(fileName);
-      });
+            $("#datotekaLabel").text(fileName);
+        });
+        const jsonDataUrl = "<?= BASE_URL . 'api/getDirectors' ?>";
+
+        $.get(jsonDataUrl, function(data){
+            const direktorji = data;
+            let html = '';
+            for (let i = 0; i < direktorji.length; i++) {
+                const direktor = direktorji[i];
+                html += '<option value="' + direktor.id + '">' + direktor.ime + " " + direktor.priimek + '</option>';
+            }
+            $("#direktorFilma").append(html);
+        });
     });
+
 </script>
 </html>
 <?php } else {

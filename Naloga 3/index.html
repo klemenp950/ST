@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kartica Filma</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+  .card {
+    margin-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
+  .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 15px;
+  }
+
+  .card-title {
+    margin-bottom: 15px;
+    color: #007bff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <img class="card-img-top" src="pot_do_slike_filma.jpg" alt="Slika filma">
+        <div class="card-body">
+          <h5 class="card-title">Naslov Filma</h5>
+          <p class="card-text"><strong>Režiser:</strong> Ime Priimek</p>
+          <p class="card-text"><strong>Leto:</strong> 2024</p>
+          <a href="pot_do_strani_s_informacijami.html" class="btn btn-primary">Več o filmu</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <img class="card-img-top" src="pot_do_slike_filma.jpg" alt="Slika filma">
+        <div class="card-body">
+          <h5 class="card-title">Naslov Filma</h5>
+          <p class="card-text"><strong>Režiser:</strong> Ime Priimek</p>
+          <p class="card-text"><strong>Leto:</strong> 2024</p>
+          <a href="pot_do_strani_s_informacijami.html" class="btn btn-primary">Več o filmu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
