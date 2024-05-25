@@ -35,7 +35,7 @@ if (!isset($_SESSION["username"])) {
             <h5 class="cardC-title"><?=$film["naslov"]?></h5>
             <p class="card-text"><strong>Režiser: </strong><?=$film["ime"] . " " . $film["priimek"]?></p>
             <p class="card-text"><strong>Leto:</strong> <?=$film["leto"]?></p>
-            <a href="pot_do_strani_s_informacijami.html" class="btn btn-primary">Več o filmu</a>
+            <a href="pot_do_strani_s_informacijami.html" class="btn btn-dark">Več o filmu</a>
           </div>
         </div>
       </div>
