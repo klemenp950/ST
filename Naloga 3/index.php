@@ -32,7 +32,6 @@ $urls = [
         UserController::logout();
     }, "user/alter-user" => function () {
         UserController::alterUser();
-        ViewHelper::redirect(BASE_URL . "index");
     }, "user/info" => function () {
         UserController::showUserInfo();
     }, "view/add-film" => function() {

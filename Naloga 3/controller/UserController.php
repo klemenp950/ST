@@ -84,6 +84,12 @@ class UserController {
             $newUsername = $_POST["newUsername"];
         }
         $username = $_SESSION["username"];
+        if ($newUsername != $username) {
+            if (!UserDB::userAvailable($newUsername)) {
+                ViewHelper::render("view/user-info.php", ["errorMessage" => "Novo uporabniško ime je že zasedeno"]);
+                return;
+            }
+        }
         $password = $_POST["oldPassword"];
         $newPassword = $_POST["newPassword"]; 
         $newPassword2 = $_POST["newPassword2"]; 
@@ -97,6 +103,7 @@ class UserController {
                 $_SESSION["username"] = $newUsername;
                 $_POST["username"] = $newUsername;
                 $_POST["password"] = $newPassword;
+                ViewHelper::redirect(BASE_URL . "index");
             }
         } else {
             ViewHelper::render("view/user-info.php", ["errorMessage" => "Staro geslo je napačno."]);
