@@ -27,73 +27,73 @@ class FilmController {
         if (isset($_POST["letoFilma"])) {
             $leto = filter_input(INPUT_POST, "letoFilma", FILTER_VALIDATE_INT, [
                 "options" => [
-                  "min_range" => 1900,
-                  "max_range" => 2024
+                    "min_range" => 1900,
+                    "max_range" => 2024
                 ]
-              ]);        
-            }
+            ]);        
+        }
         if(FilmiDB::filmExists($naslov)){
             ViewHelper::render("view/add-film.php", ["fileError" => "Film že obstaja."]);
             return;
         }
-        if (isset($_FILES["datoteka"])) {
-            $idk = FilmController::uploadImage();
-            if($idk){
-                FilmiDB::insert($naslov, $leto, $direktor, $idk);
+    
+        $filePath = null;
+        if (isset($_FILES["datoteka"]) && $_FILES["datoteka"]["error"] != UPLOAD_ERR_NO_FILE) {
+            $filePath = FilmController::uploadImage();
+            if($filePath === false) {
+                // Če nalaganje slike ni uspelo, prikaži napako in ustavi izvajanje
+                return;
             }
-        } else {
-            FilmiDB::insert($naslov, $leto, $direktor, "null");
         }
+    
+        FilmiDB::insert($naslov, $leto, $direktor, $filePath);
         ViewHelper::redirect(BASE_URL . "index");
     }
+    
 
     public static function uploadImage(){
         if (!isset($_SESSION["username"])) {
             session_start();
         }
-        $target_dir = "C:\Users\kleme\uploads\\";
-        var_dump(pathinfo($_FILES["datoteka"]["name"], PATHINFO_EXTENSION));
-        $target_file = $target_dir . $_SESSION["username"] . time() . "." . pathinfo($_FILES["datoteka"]["name"], PATHINFO_EXTENSION);
+        $target_dir = "C:/Users/kleme/uploads/";
+        $fileName = $_SESSION["username"] . time() . "." . pathinfo($_FILES["datoteka"]["name"], PATHINFO_EXTENSION);
+        $target_file = $target_dir . $fileName;
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-        // Check if image file is a actual image or fake image
-        
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    
+        // Preverite, če je datoteka slika
         $check = getimagesize($_FILES["datoteka"]["tmp_name"]);
         if($check !== false) {
-            //echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
         } else {
             ViewHelper::render("view/add-film.php", ["fileError" => "Datoteka ki ste jo izbrali ni slika."]);
             $uploadOk = 0;
         }
-
-        // Check file size
-        if ($_FILES["datoteka"]["size"] > 500000) {
+    
+        // Preverite velikost datoteke
+        if ($_FILES["datoteka"]["size"] > 5000000) { // Spremenite velikost na 5MB
             ViewHelper::render("view/add-film.php", ["fileError" => "Slika ki ste jo izbrali presega 5MB."]);
             $uploadOk = 0;
         }
-
-        // Allow certain file formats
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif" ) {
+    
+        // Dovoljeni formati datotek
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
             ViewHelper::render("view/add-film.php", ["fileError" => "Format izbrane datoteke ni podprt."]);
             $uploadOk = 0;
         }
-
-        // Check if $uploadOk is set to 0 by an error
+    
+        // Preverite, če je $uploadOk nastavljen na 0 zaradi napake
         if ($uploadOk == 0) {
             return false;
         } else {
-            var_dump($target_file);
             if (move_uploaded_file($_FILES["datoteka"]["tmp_name"], $target_file)) {
                 return $target_file;
             } else {
                 ViewHelper::render("view/add-film.php", ["fileError" => "Napaka pri nalaganju slike."]);
+                return false;
             }
         }
-        return false;
-    }
+    } 
 
     public static function getAllJson(){
         $data = FilmiDB::getAll();

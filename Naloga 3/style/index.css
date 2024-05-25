@@ -1,0 +1,31 @@
+.cardC { 
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+
+  .cardC:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
+  .cardC-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+  }
+
+  .cardC-body {
+    padding: 15px;
+  }
+
+  .cardC-title {
+    margin-bottom: 15px;
+    color: #007bff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }

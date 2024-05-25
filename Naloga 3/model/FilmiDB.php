@@ -27,7 +27,7 @@ class FilmiDB{
     public static function getAll(){
         $db = DBInit::getInstance();
 
-        $stmt = $db->prepare("SELECT f.id, f.naslov, f.leto, d.ime, d.priimek, f.slika FROM film f JOIN direktor d ON f.direktorID=d.id");
+        $stmt = $db->prepare("SELECT f.id as id, f.naslov as naslov, f.leto as leto, d.ime as ime, d.priimek as priimek, f.slika as slika FROM film f JOIN direktor d ON f.direktorID=d.id");
         $stmt->execute();
         
         return $stmt->fetchAll();

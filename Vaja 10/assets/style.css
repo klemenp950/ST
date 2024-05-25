@@ -1,6 +1,6 @@
 #main {
     margin-right: auto;
-    width: 70%;
+    width: 100%;
 }
 
 .update-cart {
@@ -28,5 +28,6 @@
     right: 0;
     border: 1px solid black;
     background-color: #E8E8E8;
+    width: 100%;
     min-width: 30%;
 }
